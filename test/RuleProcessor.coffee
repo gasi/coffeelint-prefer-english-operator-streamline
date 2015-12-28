@@ -11,32 +11,32 @@ coffeelint.registerRule PreferEnglishOperators
 vows.describe(RULE).addBatch({
 
   'non-English operators':
-    'should warn when == is used': ->
+    'should warn when `==` is used': ->
       result = coffeelint.lint('1 == 1', configError)[0]
-      assert.equal result.context, 'Replace "==" with "is"'
+      assert.equal result.context, 'Replace `==` with `is`'
 
-    'should warn when != is used': ->
+    'should warn when `!=` is used': ->
       result = coffeelint.lint('1 != 1', configError)[0]
-      assert.equal result.context, 'Replace "!=" with "isnt"'
+      assert.equal result.context, 'Replace `!=` with `isnt`'
 
-    'should warn when && is used': ->
+    'should warn when `&&` is used': ->
       result = coffeelint.lint('1 && 1', configError)[0]
-      assert.equal result.context, 'Replace "&&" with "and"'
+      assert.equal result.context, 'Replace `&&` with `and`'
 
-    'should warn when || is used': ->
+    'should warn when `||` is used': ->
       result = coffeelint.lint('1 || 1', configError)[0]
-      assert.equal result.context, 'Replace "||" with "or"'
+      assert.equal result.context, 'Replace `||` with `or`'
 
-    'should warn when ! is used': ->
+    'should warn when `!` is used': ->
       result = coffeelint.lint('x = !y', configError)[0]
-      assert.equal result.context, 'Replace "!" with "not"'
+      assert.equal result.context, 'Replace `!` with `not`'
 
-  'double not (!!)':
+  'double not (`!!`)':
     'is ignored by default': ->
       result = coffeelint.lint('x = !!y', configError)
       assert.equal(result.length, 0)
 
-    'can be configred at an independent level': ->
+    'can be configured at an independent level': ->
       configError =
         "#{RULE}":
           level: 'error'
