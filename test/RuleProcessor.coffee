@@ -1,63 +1,96 @@
-require('coffee-script/register')
-
+assert = require 'assert'
 coffeelint = require 'coffeelint'
-expect = require('chai').expect
-
 PreferEnglishOperators = require '../src/RuleProcessor'
+vows = require 'vows'
 
+
+RULE = 'prefer_english_operator'
+configError = {"#{RULE}": {level: 'error'}}
 coffeelint.registerRule PreferEnglishOperators
 
-configError = {prefer_english_operators: {level: 'error'}}
+vows.describe(RULE).addBatch({
 
-describe 'PreferEnglishOperators', ->
-  describe 'non-English operators', ->
-    it 'should warn when == is used', ->
+  'non-English operators':
+    'should warn when == is used': ->
       result = coffeelint.lint('1 == 1', configError)[0]
-      expect(result).to.be.ok
-      expect(result.context).to.equal 'Found: =='
+      assert.equal result.context, 'Replace "==" with "is"'
 
-    it 'should warn when != is used', ->
+    'should warn when != is used': ->
       result = coffeelint.lint('1 != 1', configError)[0]
-      expect(result).to.be.ok
-      expect(result.context).to.equal 'Found: !='
+      assert.equal result.context, 'Replace "!=" with "isnt"'
 
-    it 'should warn when && is used', ->
+    'should warn when && is used': ->
       result = coffeelint.lint('1 && 1', configError)[0]
-      expect(result).to.be.ok
-      expect(result.context).to.equal 'Found: &&'
+      assert.equal result.context, 'Replace "&&" with "and"'
 
-    it 'should warn when || is used', ->
+    'should warn when || is used': ->
       result = coffeelint.lint('1 || 1', configError)[0]
-      expect(result).to.be.ok
-      expect(result.context).to.equal 'Found: ||'
+      assert.equal result.context, 'Replace "||" with "or"'
 
-  describe 'English operators', ->
-    it 'should not warn when \'is\' is used', ->
-      expect(coffeelint.lint('1 is 1', configError).length).to.be.not.ok
+    'should warn when ! is used': ->
+      result = coffeelint.lint('x = !y', configError)[0]
+      assert.equal result.context, 'Replace "!" with "not"'
 
-    it 'should not warn when \'isnt\' is used', ->
-      expect(coffeelint.lint('1 isnt 1', configError).length).to.be.not.ok
+  'double not (!!)':
+    'is ignored by default': ->
+      result = coffeelint.lint('x = !!y', configError)
+      assert.equal(result.length, 0)
 
-    it 'should not warn when \'and\' is used', ->
-      expect(coffeelint.lint('1 and 1', configError).length).to.be.not.ok
+    'can be configred at an independent level': ->
+      configError =
+        "#{RULE}":
+          level: 'error'
+          doubleNotLevel: 'warn'
 
-    it 'should not warn when \'or\' is used', ->
-      expect(coffeelint.lint('1 or 1', configError).length).to.be.not.ok
+      result = coffeelint.lint('x = !!y', configError)
+      assert.equal(result.length, 1)
+      assert.equal(result[0].level, 'warn')
+      assert.equal(result[0].rule, RULE)
 
-  describe 'Comments', ->
-    it 'should not warn when == is used in a comment', ->
-      expect(coffeelint.lint('# 1 == 1', configError).length).to.be.not.ok
+  'English operators':
+    'should not warn when \'is\' is used': ->
+      assert.isEmpty(coffeelint.lint('1 is 1', configError))
 
-  describe 'Strings', ->
-    it 'should not warn when == is used in a single-quote string', ->
-      expect(coffeelint.lint('\'1 == 1\'', configError).length).to.be.not.ok
+    'should not warn when \'isnt\' is used': ->
+      assert.isEmpty(coffeelint.lint('1 isnt 1', configError))
 
-    it 'should not warn when == is used in a double-quote string', ->
-      expect(coffeelint.lint('"1 == 1"', configError).length).to.be.not.ok
+    'should not warn when \'and\' is used': ->
+      assert.isEmpty(coffeelint.lint('1 and 1', configError))
 
-    it 'should not warn when == is used in a multiline string', ->
-      expect(coffeelint.lint('''
+    'should not warn when \'or\' is used': ->
+      assert.isEmpty(coffeelint.lint('1 or 1', configError))
+
+  'Comments':
+    topic:
+      '''
+      # 1 == 1
+      # 1 != 1
+      # 1 && 1
+      # 1 || 1
+      ###
+      1 == 1
+      1 != 1
+      1 && 1
+      1 || 1
+      ###
+      '''
+
+    'should not warn when == is used in a comment': (source) ->
+      assert.isEmpty(coffeelint.lint(source, configError))
+
+  'Strings':
+    'should not warn when == is used in a single-quote string': ->
+      assert.isEmpty(coffeelint.lint('\'1 == 1\'', configError))
+
+    'should not warn when == is used in a double-quote string': ->
+      assert.isEmpty(coffeelint.lint('"1 == 1"', configError))
+
+    'should not warn when == is used in a multiline string': ->
+      source = '''
         """
         1 == 1
         """
-        ''', configError).length).to.be.not.ok
+        '''
+      assert.isEmpty(coffeelint.lint(source, configError))
+
+}).export(module)

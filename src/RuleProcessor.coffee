@@ -2,13 +2,13 @@ module.exports = class RuleProcessor
   rule:
     name: 'prefer_english_operator'
     description: '''
-    This rule prohibits &&, ||, ==, != and !.
-    Use and, or, is, isnt, and not instead.
-    !! for converting to a boolean is ignored.
+    This rule prohibits `&&`, `||`, `==`, `!=` and `!`.
+    Use `and`, `or`, `is`, `isnt`, and `not` instead.
+    Using `!!` for converting to a boolean is ignored.
     '''
     level: 'ignore'
     doubleNotLevel: 'ignore'
-    message: 'Don\'t use &&, ||, ==, !=, or !'
+    message: 'Don’t use `&&`, `||`, `==`, `!=`, or `!`'
 
   tokens: ['COMPARE', 'UNARY_MATH', 'LOGIC']
   lintToken: (token, tokenApi) ->

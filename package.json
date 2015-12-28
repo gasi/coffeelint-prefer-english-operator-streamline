@@ -4,7 +4,7 @@
   "description": "A custom coffeelint rule to prefer english style operators",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register test/*.coffee"
+    "test": "./vowsrunner.js --spec test/*.coffee"
   },
   "repository": {
     "type": "git",
