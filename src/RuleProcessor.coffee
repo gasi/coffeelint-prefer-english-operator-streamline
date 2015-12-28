@@ -1,10 +1,11 @@
 module.exports = class RuleProcessor
   rule:
-    name: 'prefer_english_operator'
+    name: 'prefer_english_operator_streamline'
     description: '''
     This rule prohibits `&&`, `||`, `==`, `!=` and `!`.
     Use `and`, `or`, `is`, `isnt`, and `not` instead.
     Using `!!` for converting to a boolean is ignored.
+    Using `!_` for Streamline.js futures is ignored.
     '''
     level: 'ignore'
     doubleNotLevel: 'ignore'
@@ -27,11 +28,15 @@ module.exports = class RuleProcessor
         when '!'
           # `not not expression` seems awkward, so `!!expression`
           # gets special handling.
-          if tokenApi.peek(1)?[0] is 'UNARY_MATH'
+          followingToken = tokenApi.peek 1
+          precedingToken = tokenApi.peek -1
+          if followingToken?[0] is 'UNARY_MATH'
             level = config.doubleNotLevel
             '`?` is usually better than `!!`'
-          else if tokenApi.peek(-1)?[0] is 'UNARY_MATH'
+          else if precedingToken?[0] is 'UNARY_MATH'
             # Ignore the 2nd half of the double not
+            null
+          else if followingToken?[1] is '_'
             null
           else
             'Replace `!` with `not`'

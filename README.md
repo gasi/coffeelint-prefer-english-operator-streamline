@@ -33,8 +33,8 @@ In your `coffeelint.json`, add
 {
   // other lint rules
   {
-    "prefer_english_operator": {
-      "module": "coffeelint-prefer-english-operator",
+    "prefer_english_operator_streamline": {
+      "module": "coffeelint-prefer-english-operator-streamline",
       "level": "error"
     }
   }

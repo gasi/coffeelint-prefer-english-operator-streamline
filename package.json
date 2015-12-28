@@ -1,30 +1,32 @@
 {
-  "name": "coffeelint-prefer-english-operator",
-  "version": "0.1.0",
-  "description": "A custom coffeelint rule to prefer english style operators",
+  "name": "coffeelint-prefer-english-operator-streamline",
+  "version": "0.0.1",
+  "description": "A custom coffeelint rule to prefer english style operators while allowing Streamline.js futures syntax (`!_`)",
   "main": "index.js",
   "scripts": {
     "test": "./vowsrunner.js --spec test/*.coffee"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/parakeety/coffeelint-prefer-english-operator.git"
+    "url": "git://github.com/gasi/coffeelint-prefer-english-operator-streamline.git"
   },
   "keywords": [
     "coffeelint",
-    "lint",
     "coffeelintrule",
-    "english-operator"
+    "english-operator",
+    "lint",
+    "streamline",
+    "streamlinejs"
   ],
   "author": "Yohei Okada <yohei.states@akane.waseda.jp>",
+  "contributors": [
+    "Daniel Gasienica <daniel@gasienica.ch>"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/parakeety/coffeelint-prefer-english-operator/issues"
+    "url": "https://github.com/gasi/coffeelint-prefer-english-operator-streamline/issues"
   },
-  "homepage": "https://github.com/parakeety/coffeelint-prefer-english-operator",
-  "peerDependencies": {
-    "coffeelint": "^1"
-  },
+  "homepage": "https://github.com/gasi/coffeelint-prefer-english-operator-streamline",
   "devDependencies": {
     "coffee-script": "^1.7",
     "coffeelint": "^1",

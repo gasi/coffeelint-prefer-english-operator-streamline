@@ -1,12 +1,12 @@
 assert = require 'assert'
 coffeelint = require 'coffeelint'
-PreferEnglishOperators = require '../src/RuleProcessor'
+PreferEnglishOperatorsStreamline = require '../src/RuleProcessor'
 vows = require 'vows'
 
 
-RULE = 'prefer_english_operator'
+RULE = 'prefer_english_operator_streamline'
 configError = {"#{RULE}": {level: 'error'}}
-coffeelint.registerRule PreferEnglishOperators
+coffeelint.registerRule PreferEnglishOperatorsStreamline
 
 vows.describe(RULE).addBatch({
 
@@ -47,6 +47,11 @@ vows.describe(RULE).addBatch({
       assert.equal(result[0].level, 'warn')
       assert.equal(result[0].rule, RULE)
 
+  'Streamline.js future (`!_`)':
+    'is ignored': ->
+      result = coffeelint.lint('x = f !_', configError)
+      assert.equal(result.length, 0)
+
   'English operators':
     'should not warn when \'is\' is used': ->
       assert.isEmpty(coffeelint.lint('1 is 1', configError))
@@ -67,11 +72,14 @@ vows.describe(RULE).addBatch({
       # 1 != 1
       # 1 && 1
       # 1 || 1
+      # f !_
+
       ###
       1 == 1
       1 != 1
       1 && 1
       1 || 1
+      f !_
       ###
       '''
 
