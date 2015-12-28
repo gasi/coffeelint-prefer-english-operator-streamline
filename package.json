@@ -1,7 +1,7 @@
 {
   "name": "coffeelint-prefer-english-operator-streamline",
   "version": "0.0.1",
-  "description": "A custom coffeelint rule to prefer english style operators while allowing Streamline.js futures syntax (`!_`)",
+  "description": "A custom CoffeeLint rule to prefer English natural language operators while allowing Streamline.js futures syntax (`!_`)",
   "main": "index.js",
   "scripts": {
     "prepublish": "coffee --compile src/",
