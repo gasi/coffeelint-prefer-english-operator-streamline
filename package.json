@@ -26,10 +26,8 @@
     "coffeelint": "^1"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.0",
-    "coffeelint": "1.5.1",
-    "mocha": "1.9.0",
-    "mocha-phantomjs": "2.0.1",
-    "chai": "1.6.0"
+    "coffee-script": "^1.7",
+    "coffeelint": "^1",
+    "vows": "^0.8.0"
   }
 }
