@@ -4,6 +4,7 @@
   "description": "A custom coffeelint rule to prefer english style operators while allowing Streamline.js futures syntax (`!_`)",
   "main": "index.js",
   "scripts": {
+    "prepublish": "coffee --compile src/",
     "test": "./vowsrunner.js --spec test/*.coffee"
   },
   "repository": {
